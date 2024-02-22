@@ -5,6 +5,7 @@
 #include "driver/elevio.h"
 #include "driver/elevator.h"
 #include "driver/etasjeliste.h"
+#include "driver/door.h"
 
 
 

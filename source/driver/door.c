@@ -1,5 +1,4 @@
 #include "door.h"
-#include "elevator.h"
 #include <unistd.h> //sleep()
 
 

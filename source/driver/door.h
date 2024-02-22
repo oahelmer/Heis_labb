@@ -1,5 +1,6 @@
 #pragma once
 #include "stdbool.h"
+#include "elevator.h"
 
 typedef struct door
 {
@@ -7,9 +8,9 @@ typedef struct door
 } Door;
 
 
-void doorOpen(Elevator *Elevator);
+void doorOpen(Elevator *heis);
 
-void doorOpenEmergency(Elevator *Elevator, bool stopButton);    //Kan slåes sammen med doorOpen?
+void doorOpenEmergency(Elevator *heis, bool stopButton);    //Kan slåes sammen med doorOpen?
 
 void doorClose();
 
