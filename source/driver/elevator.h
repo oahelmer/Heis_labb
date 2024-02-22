@@ -1,4 +1,8 @@
-#pragma once
+#ifndef __ELEVATOR_H__
+#define __ELEVATOR_H__
+
+
+
 #include "elevio.h"
 #include "door.h"
 
@@ -21,3 +25,5 @@ typedef struct
 void elevatorInit(Elevator *heis);
 
 int elevatorGetPosition(Elevator *heis);
+
+#endif

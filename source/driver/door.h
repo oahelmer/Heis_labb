@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __DOOR_H__
+#define __DOOR_H__
+
 #include "stdbool.h"
 #include "elevator.h"
 
@@ -14,3 +16,4 @@ void doorOpenEmergency(Elevator *heis, bool stopButton);    //Kan slåes sammen 
 
 void doorClose();
 
+#endif

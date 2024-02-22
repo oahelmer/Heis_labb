@@ -3,7 +3,7 @@
 
 
 void doorOpen(Elevator *heis){
-    if(heis->currentFloor == heis->nextInstruction) {
+    if(heis->currentFloor == heis->nextInstruction) {       //gjøres kanskje i main
         sleep(3);
     }
 }
