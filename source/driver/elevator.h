@@ -17,6 +17,6 @@ typedef struct
     Door door;
 } Elevator;
 
-void elevatorInit(elevator *heis);
+void elevatorInit(Elevator *heis);
 
-int elevatorGetPosition(elevator *heis);
+int elevatorGetPosition(Elevator *heis);

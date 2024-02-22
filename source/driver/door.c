@@ -3,14 +3,14 @@
 #include <unistd.h> //sleep()
 
 
-void doorOpen(elevator *heis){
+void doorOpen(Elevator *heis){
     if(heis->currentFloor == heis->nextInstruction) {
         sleep(3);
     }
 }
 
 
-void doorOpenEmergency(elevator *heis, bool stopButton) {
+void doorOpenEmergency(Elevator *heis, bool stopButton) {
     while (stopButton) {
         if(elevatorGetPosition >= 0){
         sleep(3);

@@ -7,9 +7,9 @@ typedef struct door
 } Door;
 
 
-void doorOpen(elevator *Elevator);
+void doorOpen(Elevator *Elevator);
 
-void doorOpenEmergency(elevator *Elevator, bool stopButton);    //Kan slåes sammen med doorOpen?
+void doorOpenEmergency(Elevator *Elevator, bool stopButton);    //Kan slåes sammen med doorOpen?
 
 void doorClose();
 

@@ -1,10 +1,10 @@
 #include "elevator.h"
 
-void elevatorInit(elevator *heis) {
+void elevatorInit(Elevator *heis) {
     heis->currentFloor = elevatorGetPosition(heis);
     heis->door.isOpen = 0;
 }
 
-int elevatorGetPosition(elevator *heis) {
+int elevatorGetPosition(Elevator *heis) {
     return elevio_floorSensor();
 }
