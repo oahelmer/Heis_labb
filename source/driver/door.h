@@ -4,7 +4,7 @@
 #include "stdbool.h"
 #include "elevator.h"
 
-typedef struct door
+typedef struct Door
 {
     bool isOpen;
 } Door;

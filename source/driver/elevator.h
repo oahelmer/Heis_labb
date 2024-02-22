@@ -14,7 +14,7 @@ typedef enum
     FOURTH_FLOOR    = 3
 } Floor;
 
-typedef struct
+typedef struct Elevator
 {
     Floor currentFloor;
     int nextInstruction;
