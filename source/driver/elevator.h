@@ -15,6 +15,7 @@ typedef struct
     Floor currentFloor;
     int nextInstruction;
     Door door;
+    int direction;
 } Elevator;
 
 void elevatorInit(Elevator *heis);
