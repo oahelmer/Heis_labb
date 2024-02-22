@@ -3,16 +3,19 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
+#include "driver/elevator.h"
+#include "driver/etasjeliste.h"
+
 
 
 
 int main(){
     elevio_init();
-    
+    MotorDirection direction = DIRN_STOP;
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
-    elevio_motorDirection(DIRN_UP);
+    elevio_motorDirection(direction);
 
     while(1){
         int floor = elevio_floorSensor();

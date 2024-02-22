@@ -1,4 +1,4 @@
-#include "Etasjeliste.h"
+#include "etasjeliste.h"
 
 int etasjeliste_opp[] = {0,0,0,0};
 int etasjeliste_ned[] = {0,0,0,0};
