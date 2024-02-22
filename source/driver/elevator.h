@@ -1,5 +1,6 @@
 #pragma once
 #include "elevio.h"
+#include "door.h"
 
 typedef enum
 {
@@ -7,15 +8,15 @@ typedef enum
     SECOND_FLOOR    = 1,
     THIRD_FLOOR     = 2,
     FOURTH_FLOOR    = 3
-} floor;
+} Floor;
 
 typedef struct
 {
-    floor currentPosition;
+    Floor currentFloor;
     int nextInstruction;
-
+    Door door;
 } elevator;
 
+void elevatorInit(elevator *heis);
 
-void elevatorInit(elevator *heis, floor position);
 int elevatorGetPosition(elevator *heis);

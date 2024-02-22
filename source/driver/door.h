@@ -4,7 +4,7 @@
 typedef struct door
 {
     bool isOpen;
-} door;
+} Door;
 
 
 void doorOpen(elevator *Elevator);

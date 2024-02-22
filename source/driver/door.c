@@ -2,14 +2,15 @@
 #include "elevator.h"
 #include <unistd.h> //sleep()
 
-void doorOpen(elevator *Elevator){
-    if(Elevator->currentPosition == Elevator->nextInstruction) {
+
+void doorOpen(elevator *heis){
+    if(heis->currentFloor == heis->nextInstruction) {
         sleep(3);
     }
 }
 
 
-void doorOpenEmergency(elevator *Elevator, bool stopButton) {
+void doorOpenEmergency(elevator *heis, bool stopButton) {
     while (stopButton) {
         if(elevatorGetPosition >= 0){
         sleep(3);

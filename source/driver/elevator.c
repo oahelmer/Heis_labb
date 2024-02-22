@@ -1,7 +1,8 @@
 #include "elevator.h"
 
-void elevatorInit(elevator *Elevator, floor position) {
-    Elevator->currentPosition = position;
+void elevatorInit(elevator *heis) {
+    heis->currentFloor = elevatorGetPosition(heis);
+    heis->door.isOpen = 0;
 }
 
 int elevatorGetPosition(elevator *heis) {
