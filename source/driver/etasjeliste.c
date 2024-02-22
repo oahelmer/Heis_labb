@@ -13,10 +13,14 @@ int etasjeliste_hent(int etasje, int retning){
 }
 
 void etasjeliste_sett(int etasje, int retning, int verdi){
-    if(retning == 1){
+    if(retning == 0){
         etasjeliste_opp[etasje] = verdi;
     }
-    else if(retning == -1){
+    else if(retning == 1){
+        etasjeliste_ned[etasje] = verdi;
+    }
+    else if(retning == 2){
+        etasjeliste_opp[etasje] = verdi;
         etasjeliste_ned[etasje] = verdi;
     }
 }
