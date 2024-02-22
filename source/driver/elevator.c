@@ -2,7 +2,7 @@
 
 void elevatorInit(Elevator *heis) {
     heis->currentFloor = elevatorGetPosition(heis);
-    heis->door.isOpen = 0;
+    heis->door_Open = 0;
 }
 
 int elevatorGetPosition(Elevator *heis) {

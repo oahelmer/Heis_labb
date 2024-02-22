@@ -8,7 +8,8 @@
 #include "driver/door.h"
 
 
-
+int etasjeliste_opp[] = {0,0,0,0};
+int etasjeliste_ned[] = {0,0,0,0};
 
 int main(){
     elevio_init();

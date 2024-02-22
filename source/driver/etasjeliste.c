@@ -1,5 +1,6 @@
 #include "etasjeliste.h"
 
+
 int etasjeliste_hent(int etasje, int retning){
     if(retning == 1){
         return etasjeliste_opp[etasje];

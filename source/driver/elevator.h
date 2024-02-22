@@ -6,6 +6,7 @@
 #include "elevio.h"
 #include "door.h"
 
+
 typedef enum
 {
     FIRST_FLOOR     = 0,
@@ -18,7 +19,7 @@ typedef struct Elevator
 {
     Floor currentFloor;
     int nextInstruction;
-    Door door;
+    bool door_Open;
     int direction;
 } Elevator;
 
