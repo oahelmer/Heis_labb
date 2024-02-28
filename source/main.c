@@ -20,8 +20,13 @@ int main(){
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
-    elevio_motorDirection(direction);
+//    elevio_motorDirection(direction);
     elevatorInit(&heis);
+
+    //Startup the elevator goes down until floorstate is defined
+    while(elevio_floorSensor() == -1){
+        elevio_motorDirection(direction);
+    }
 
     while(1){
         int floorState = elevio_floorSensor();
@@ -47,35 +52,33 @@ int main(){
         }
 
 
-        // Sjekker om heisen har kolidert, setter currentFloor og etasjelys.
-        if(floorState != -1){
-            etasjeliste_reset(floorState);
-            heis.currentFloor = floorState;
-            elevio_floorIndicator(floorState);
-        }
-
-        // setter directrion og heis.direction
-        direction = sjekk_om_bytte_retning(heis.currentFloor, direction, heis.direction);
-        if(direction == 1){
-            heis.direction = 1;
-        }
-        else if(direction == -1){
-            heis.direction = -1;
-        }
-
-        // sjekker om heisen har kommet fram til etasjen. 
-        heis.nextInstruction = etasjeliste_hent_neste(heis.currentFloor, heis.direction);
-        if(heis.nextInstruction == heis.currentFloor){
-            direction = DIRN_STOP;
+        // Sjekker om heisen ikke er i etasje setter currentFloor og etasjelys.
+        if(elevio_floorSensor() != -1){
+            heis.currentFloor = elevio_floorSensor();
+            elevio_floorIndicator(elevio_floorSensor());
+            direction = 0;
             elevio_motorDirection(direction);
-            doorOpen(&heis);
-            etasjeliste_reset(heis.currentFloor);
+        
+        
+            // setter directrion og heis.direction
+            direction = sjekk_om_bytte_retning(heis.currentFloor, direction, heis.direction);
+            if(direction == 1){
+                heis.direction = 1;
+            }
+            else if(direction == -1){
+                heis.direction = -1;
+            }
+
+            //  sjekker om heisen har kommet fram til etasjen.
+            heis.nextInstruction = etasjeliste_hent_neste(heis.currentFloor, heis.direction);
+            if(heis.nextInstruction == heis.currentFloor){
+                direction = DIRN_STOP;
+            //  elevio_motorDirection(direction);
+                doorOpen(&heis);
+                etasjeliste_reset(heis.currentFloor);
+            }
         }
         elevio_motorDirection(direction);
-        
-
-
-
 
 
         if(elevio_obstruction()){
@@ -92,10 +95,13 @@ int main(){
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
 
         // printer etasjeliste for debugging
+/*        printf("elevio_floorSensor(): %d\n", elevio_floorSensor());
         for(int i =0; i < 4; i++){
             printf("opp: %d  ned: %d\n", etasjeliste_opp[i], etasjeliste_ned[i]);
         }
         printf("\n");
+*/
+        
     }
 
     return 0;
