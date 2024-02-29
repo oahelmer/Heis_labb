@@ -9,12 +9,10 @@ typedef struct
     bool isOpen;
 } Door;
 
-struct Elevator;
 
+void doorOpen(Elevator *heis);
 
-void doorOpen(struct Elevator *heis);
-
-void doorOpenEmergency(struct Elevator *heis, bool stopButton);    //Kan slåes sammen med doorOpen?
+void doorOpenEmergency(Elevator *heis, bool stopButton);    //Kan slåes sammen med doorOpen?
 
 void doorClose();
 
