@@ -6,7 +6,7 @@ void elevatorInit(Elevator *heis) {
         elevio_motorDirection(DIRN_DOWN);
     }
     heis->currentFloor = elevatorGetPosition(heis);
-    heis->door_Open = 0;
+    heis->doorIsOpen = 0;
 }
 
 int elevatorGetPosition(Elevator *heis) {
