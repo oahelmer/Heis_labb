@@ -21,7 +21,7 @@ int main(){
     printf("Press the stop button on the elevator panel to exit\n");
 
     elevio_motorDirection(direction);
-    elevatorInit(&heis);
+    //elevatorInit(&heis);
 
     while(1){
         int floorState = elevio_floorSensor();
@@ -35,7 +35,7 @@ int main(){
         }
         */
 
-        for(int f = 0; f < N_FLOORS; f++){
+/*         for(int f = 0; f < N_FLOORS; f++){
             for(int b = 0; b < N_BUTTONS; b++){
                 int btnPressed = elevio_callButton(f, b);
                 elevio_buttonLamp(f, b, btnPressed);
@@ -44,18 +44,17 @@ int main(){
                 }
             }
         }
+ */
 
-
-        // Sjekker om heisen har kolidert, setter currentFloor og etasjelys.
+/*         // Sjekker om heisen har kolidert, setter currentFloor og etasjelys.
         if(floorState != -1){
             etasjeliste_reset(floorState);
             heis.currentFloor = floorState;
             elevio_floorIndicator(floorState);
-        }
+        } */
 
 
-
-        if(etasjeliste_hent_neste(heis.currentFloor, heis.direction) - heis.currentFloor > 0){
+/*         if(etasjeliste_hent_neste(heis.currentFloor, heis.direction) - heis.currentFloor > 0){
             direction = DIRN_UP;
             elevio_motorDirection(direction);
 
@@ -67,19 +66,8 @@ int main(){
             elevio_motorDirection(direction);
             doorOpen(&heis);
             etasjeliste_reset(heis.currentFloor);
-        }
-        
-
-
-
-
-
-        if(elevio_obstruction()){
-            elevio_stopLamp(1);
-        } else {
-            elevio_stopLamp(0);
-        }
-        
+        } */
+            
         if(elevio_stopButton()){
             elevio_motorDirection(DIRN_STOP);
             break;
