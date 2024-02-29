@@ -14,6 +14,10 @@ int lysliste_opp[] = {0,0,0,0};
 int lysliste_ned[] = {0,0,0,0};
 int lysliste_inne[] = {0,0,0,0};
 bool lysFlagg = 0;
+bool lys_opp_flagg = 0;
+bool lys_ned_flagg = 0;
+bool lys_inne_flagg = 0;
+
 
 int main(){
     elevio_init();
@@ -48,12 +52,44 @@ int main(){
         for(int f = 0; f < N_FLOORS; f++){
             for(int b = 0; b < N_BUTTONS; b++){
                 int btnPressed = elevio_callButton(f, b);
+                if(btnPressed) {
+                    switch (b)
+                    {
+                    case BUTTON_HALL_UP:
+                        lysliste_opp[f] = 1;
+                        break;
+                    case BUTTON_HALL_DOWN:
+                        lysliste_ned[f] = 1;
+                        break;
+                    case BUTTON_CAB:
+                        lysliste_inne[f] = 1;
+                        break;
+                    default:
+                        break;
+                    }
+                }
                 elevio_buttonLamp(f, b, btnPressed);
                 if(btnPressed){
                     etasjeliste_sett(f, b, 1);
                 }
             }
         }
+
+        for(int i =0; i < 4; i++){
+            if(lysliste_opp[i] == 1 && !lys_opp_flagg){
+                elevio_buttonLamp(i, BUTTON_HALL_UP, 1);
+                lys_opp_flagg = 1;
+            }
+            if(lysliste_ned[i] == 1 && !lys_ned_flagg){
+                elevio_buttonLamp(i, BUTTON_HALL_DOWN, 1);
+                lys_ned_flagg = 1;
+            }
+            if(lysliste_inne[i] == 1 && !lys_inne_flagg){
+                elevio_buttonLamp(i, BUTTON_CAB, 1);
+                lys_inne_flagg = 1;
+            }            
+        }
+        
 
         int floorState = elevio_floorSensor();
 
@@ -82,6 +118,20 @@ int main(){
             //  elevio_motorDirection(direction);
                 doorOpen(&heis);
                 etasjeliste_reset(heis.currentFloor);
+                for(int i =0; i < 4; i++){
+                    if(lysliste_opp[i] == 1 && lys_opp_flagg){
+                        elevio_buttonLamp(i, BUTTON_HALL_UP, 0);
+                        lys_opp_flagg = 0;
+                    }
+                    if(lysliste_ned[i] == 1 && lys_ned_flagg){
+                        elevio_buttonLamp(i, BUTTON_HALL_DOWN, 0);
+                        lys_ned_flagg = 0;
+                    }
+                    if(lysliste_inne[i] == 1 && lys_inne_flagg){
+                        elevio_buttonLamp(i, BUTTON_CAB, 0);
+                        lys_inne_flagg = 0;
+                    }            
+                }
             }
         }
         elevio_motorDirection(direction);
