@@ -34,6 +34,7 @@ int main(){
         elevio_motorDirection(DIRN_DOWN);
     }elevio_motorDirection(DIRN_STOP);
 
+
     while(1){
         /*
         if(heis.currentFloor == 0){
@@ -70,6 +71,7 @@ int main(){
                 }
             }
         }
+ 
 
         for(int i =0; i < 4; i++){
             if(lysliste_opp[i] == 1){
