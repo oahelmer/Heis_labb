@@ -14,10 +14,6 @@ int lysliste_opp[] = {0,0,0,0};
 int lysliste_ned[] = {0,0,0,0};
 int lysliste_inne[] = {0,0,0,0};
 bool lysFlagg = 0;
-bool lys_opp_flagg = 0;
-bool lys_ned_flagg = 0;
-bool lys_inne_flagg = 0;
-
 
 int main(){
     elevio_init();
@@ -68,7 +64,7 @@ int main(){
                         break;
                     }
                 }
-                elevio_buttonLamp(f, b, btnPressed);
+                //elevio_buttonLamp(f, b, btnPressed);
                 if(btnPressed){
                     etasjeliste_sett(f, b, 1);
                 }
@@ -76,17 +72,14 @@ int main(){
         }
 
         for(int i =0; i < 4; i++){
-            if(lysliste_opp[i] == 1 && !lys_opp_flagg){
+            if(lysliste_opp[i] == 1){
                 elevio_buttonLamp(i, BUTTON_HALL_UP, 1);
-                lys_opp_flagg = 1;
             }
-            if(lysliste_ned[i] == 1 && !lys_ned_flagg){
+            if(lysliste_ned[i] == 1){
                 elevio_buttonLamp(i, BUTTON_HALL_DOWN, 1);
-                lys_ned_flagg = 1;
             }
-            if(lysliste_inne[i] == 1 && !lys_inne_flagg){
+            if(lysliste_inne[i] == 1){
                 elevio_buttonLamp(i, BUTTON_CAB, 1);
-                lys_inne_flagg = 1;
             }            
         }
         
@@ -118,20 +111,20 @@ int main(){
             //  elevio_motorDirection(direction);
                 doorOpen(&heis);
                 etasjeliste_reset(heis.currentFloor);
-                for(int i =0; i < 4; i++){
-                    if(lysliste_opp[i] == 1 && lys_opp_flagg){
-                        elevio_buttonLamp(i, BUTTON_HALL_UP, 0);
-                        lys_opp_flagg = 0;
-                    }
-                    if(lysliste_ned[i] == 1 && lys_ned_flagg){
-                        elevio_buttonLamp(i, BUTTON_HALL_DOWN, 0);
-                        lys_ned_flagg = 0;
-                    }
-                    if(lysliste_inne[i] == 1 && lys_inne_flagg){
-                        elevio_buttonLamp(i, BUTTON_CAB, 0);
-                        lys_inne_flagg = 0;
-                    }            
+
+                if(lysliste_opp[heis.currentFloor] == 1){
+                    elevio_buttonLamp(heis.currentFloor, BUTTON_HALL_UP, 0);
+                    lysliste_opp[heis.currentFloor] = 0;
                 }
+                if(lysliste_ned[heis.currentFloor] == 1){
+                    elevio_buttonLamp(heis.currentFloor, BUTTON_HALL_DOWN, 0);
+                    lysliste_ned[heis.currentFloor] = 0;
+                }
+                if(lysliste_inne[heis.currentFloor] == 1){
+                    elevio_buttonLamp(heis.currentFloor, BUTTON_CAB, 0);
+                    lysliste_inne[heis.currentFloor] = 0;
+                }            
+            
             }
         }
         elevio_motorDirection(direction);
@@ -163,7 +156,8 @@ int main(){
         // printer etasjeliste for debugging
         printf("floorState: %d\n", floorState);
         for(int i =0; i < 4; i++){
-            printf("opp: %d  ned: %d\n", etasjeliste_opp[i], etasjeliste_ned[i]);
+            printf("opp: %d  ned: %d  lys_opp: %d  lys_ned: %d  lys_inne %d\n", etasjeliste_opp[i], etasjeliste_ned[i], lysliste_opp[i], lysliste_ned[i], lysliste_inne[i]);
+        
         }
         printf("\n");
 
