@@ -3,8 +3,10 @@
 
 
 void doorOpen(Elevator *heis){
-    if(heis->currentFloor == heis->nextInstruction) {       //gjøres kanskje i main
+    if(heis->currentFloor == heis->nextInstruction) {  
+        elevio_doorOpenLamp(1);
         sleep(3);
+        elevio_doorOpenLamp(0);
     }
 }
 

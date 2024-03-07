@@ -38,8 +38,8 @@ void etasjeliste_reset_all(){
     }
 }
 
-int etasjeliste_hent_neste(int etasje, int retning){
-    if(retning == 1){
+int etasjeliste_hent_neste(int etasje, int prioritert_retning){
+    if(prioritert_retning == 1){
         for(int i = etasje; i < 4; i++){
             if(etasjeliste_opp[i] == 1){
                 return i;
@@ -51,7 +51,7 @@ int etasjeliste_hent_neste(int etasje, int retning){
             }
         }
     }
-    else if(retning == -1){
+    else if(prioritert_retning == -1){
         for(int i = etasje; i >= 0; i--){
             if(etasjeliste_ned[i] == 1){
                 return i;
@@ -64,4 +64,76 @@ int etasjeliste_hent_neste(int etasje, int retning){
         }
     }
     return -1;
+}
+
+int sjekk_om_bytte_retning(int etasje, int retning, int prioritert_retning){ // returnerer retningen den skal fortsette eller bytte til
+    int test = 0;
+    if(retning == -1){
+        for(int i = etasje; i >= 0; i--){
+            test += etasjeliste_ned[i];
+        }
+        if(test > 0){
+            return -1;
+        }
+        else{
+            return 0;
+        }
+    }
+    else if(retning == 1){
+        for(int i = etasje; i < 4; i++){
+            test += etasjeliste_opp[i];
+        }
+        if(test > 0){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    else if(retning == 0){
+        if(prioritert_retning == -1)
+        {
+        for(int i = etasje; i >= 0; i--){
+            test += etasjeliste_ned[i];
+            test += etasjeliste_opp[i];
+        }
+        if(test > 0){
+            return -1;
+        }
+        for(int i = etasje; i < 4; i++){
+            test += etasjeliste_ned[i];
+            test += etasjeliste_opp[i];
+        }
+        if(test > 0){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+        }
+
+        if(prioritert_retning == 1)
+        {
+        for(int i = etasje; i < 4; i++){
+            test += etasjeliste_ned[i];
+            test += etasjeliste_opp[i];
+        }
+        if(test > 0){
+            return 1;
+        }
+        for(int i = etasje; i >= 0; i--){
+            test += etasjeliste_ned[i];
+            test += etasjeliste_opp[i];
+        }
+        if(test > 0){
+            return -1;
+        }
+        else{
+            return 0;
+        }
+        }
+        
+    }
+    return 0;
+
 }
