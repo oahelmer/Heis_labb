@@ -15,6 +15,9 @@ int lysliste_ned[] = {0,0,0,0};
 int lysliste_inne[] = {0,0,0,0};
 bool lysFlagg = 0;
 
+void setButtonLight();
+void resetButtonLight(int currentFloor);
+
 int main(){
     elevio_init();
     MotorDirection direction = DIRN_STOP; // bevegelses retning
