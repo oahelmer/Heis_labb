@@ -147,6 +147,9 @@ int main(){
         }
         if(stop){
             if(stop_door_open_flag == 1){
+                while(elevio_obstruction()) {
+                    nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
+                }
                 sleep(3);
                 stop_door_open_flag = 0;
             }

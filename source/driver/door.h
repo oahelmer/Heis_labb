@@ -3,6 +3,7 @@
 
 #include "stdbool.h"
 #include "elevator.h"
+#include <time.h>
 
 typedef struct
 {
