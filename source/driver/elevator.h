@@ -4,7 +4,6 @@
 
 
 #include "elevio.h"
-#include "door.h"
 
 
 typedef enum
@@ -18,7 +17,6 @@ typedef enum
 typedef struct {
     Floor currentFloor;
     int nextInstruction;
-    bool doorIsOpen;
     int direction;
 } Elevator;
 

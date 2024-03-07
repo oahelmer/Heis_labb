@@ -6,6 +6,7 @@
 #include "driver/elevator.h"
 #include "driver/etasjeliste.h"
 #include "driver/door.h"
+#include <unistd.h>
 
 
 int etasjeliste_opp[] = {0,0,0,0};
@@ -31,6 +32,7 @@ void init(){
 int main(){
     elevio_init();
     bool stop = 0;
+    bool stop_door_open_flag = 0;
     MotorDirection direction = DIRN_STOP; // bevegelses retning
     Elevator heis;
     heis.direction = DIRN_UP; // prioritert retning
@@ -129,7 +131,6 @@ int main(){
         } else if(floorState == -1 && lysFlagg){
             lysFlagg = 0;
         }
-
         if(elevio_obstruction()){
             elevio_stopLamp(1);
         } else {
@@ -138,10 +139,18 @@ int main(){
         
         while(elevio_stopButton()){
             elevio_motorDirection(DIRN_STOP);
+            if(floorState != -1){
+                elevio_doorOpenLamp(1);
+                stop_door_open_flag = 1;
+            }
             stop = 1;
         }
         if(stop){
-
+            if(stop_door_open_flag == 1){
+                sleep(3);
+                stop_door_open_flag = 0;
+            }
+            elevio_doorOpenLamp(0);
             etasjeliste_reset_all();
             resetAllLights();
             while(1){
