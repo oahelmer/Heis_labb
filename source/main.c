@@ -21,6 +21,7 @@ void resetAllLights();
 
 void init(){
     //Startup the elevator goes down until floorstate is defined
+    resetAllLights();
     while(elevio_floorSensor() == -1){
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
         elevio_motorDirection(DIRN_DOWN);
@@ -142,6 +143,7 @@ int main(){
         if(stop){
 
             etasjeliste_reset_all();
+            resetAllLights();
             while(1){
 
                 for(int f = 0; f < N_FLOORS; f++){
@@ -231,6 +233,9 @@ void resetAllLights() {
     for(int i =0; i < 4; i++){
         elevio_buttonLamp(i, BUTTON_HALL_UP, 0);
         elevio_buttonLamp(i, BUTTON_HALL_DOWN, 0);
-        elevio_buttonLamp(i, BUTTON_CAB, 0);         
+        elevio_buttonLamp(i, BUTTON_CAB, 0);
+        lysliste_inne[i] = 0;
+        lysliste_ned[i] = 0;
+        lysliste_opp[i] = 0;         
     }
 }
