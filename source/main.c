@@ -15,6 +15,9 @@ int lysliste_ned[] = {0,0,0,0};
 int lysliste_inne[] = {0,0,0,0};
 bool lysFlagg = 0;
 
+void setButtonLight();
+void resetButtonLight(int currentFloor);
+void resetAllLights();
 
 void init(){
     //Startup the elevator goes down until floorstate is defined
@@ -79,18 +82,7 @@ int main(){
             }
         }
 
-        for(int i =0; i < 4; i++){
-            if(lysliste_opp[i] == 1){
-                elevio_buttonLamp(i, BUTTON_HALL_UP, 1);
-            }
-            if(lysliste_ned[i] == 1){
-                elevio_buttonLamp(i, BUTTON_HALL_DOWN, 1);
-            }
-            if(lysliste_inne[i] == 1){
-                elevio_buttonLamp(i, BUTTON_CAB, 1);
-            }            
-        }
-        
+        setButtonLight();
 
         int floorState = elevio_floorSensor();
 
@@ -120,20 +112,7 @@ int main(){
             //  elevio_motorDirection(direction);
                 doorOpen(&heis);
                 etasjeliste_reset(heis.currentFloor);
-
-                if(lysliste_opp[heis.currentFloor] == 1){
-                    elevio_buttonLamp(heis.currentFloor, BUTTON_HALL_UP, 0);
-                    lysliste_opp[heis.currentFloor] = 0;
-                }
-                if(lysliste_ned[heis.currentFloor] == 1){
-                    elevio_buttonLamp(heis.currentFloor, BUTTON_HALL_DOWN, 0);
-                    lysliste_ned[heis.currentFloor] = 0;
-                }
-                if(lysliste_inne[heis.currentFloor] == 1){
-                    elevio_buttonLamp(heis.currentFloor, BUTTON_CAB, 0);
-                    lysliste_inne[heis.currentFloor] = 0;
-                }            
-                
+                resetButtonLight(heis.currentFloor);
             }
         }
 
@@ -217,4 +196,41 @@ int main(){
     }
 
     return 0;
+}
+
+void setButtonLight() {
+    for(int i =0; i < 4; i++){
+        if(lysliste_opp[i] == 1){
+            elevio_buttonLamp(i, BUTTON_HALL_UP, 1);
+        }
+        if(lysliste_ned[i] == 1){
+            elevio_buttonLamp(i, BUTTON_HALL_DOWN, 1);
+        }
+        if(lysliste_inne[i] == 1){
+            elevio_buttonLamp(i, BUTTON_CAB, 1);
+        }            
+    }
+}
+
+void resetButtonLight(int currentFloor) {
+    if(lysliste_opp[currentFloor] == 1){
+    elevio_buttonLamp(currentFloor, BUTTON_HALL_UP, 0);
+    lysliste_opp[currentFloor] = 0;
+    }
+    if(lysliste_ned[currentFloor] == 1){
+        elevio_buttonLamp(currentFloor, BUTTON_HALL_DOWN, 0);
+        lysliste_ned[currentFloor] = 0;
+    }
+    if(lysliste_inne[currentFloor] == 1){
+        elevio_buttonLamp(currentFloor, BUTTON_CAB, 0);
+        lysliste_inne[currentFloor] = 0;
+    }  
+}
+
+void resetAllLights() {
+    for(int i =0; i < 4; i++){
+        elevio_buttonLamp(i, BUTTON_HALL_UP, 0);
+        elevio_buttonLamp(i, BUTTON_HALL_DOWN, 0);
+        elevio_buttonLamp(i, BUTTON_CAB, 0);         
+    }
 }
