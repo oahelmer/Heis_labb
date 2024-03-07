@@ -15,12 +15,23 @@ int lysliste_ned[] = {0,0,0,0};
 int lysliste_inne[] = {0,0,0,0};
 bool lysFlagg = 0;
 
+
+void init(){
+    //Startup the elevator goes down until floorstate is defined
+    while(elevio_floorSensor() == -1){
+        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
+        elevio_motorDirection(DIRN_DOWN);
+    }elevio_motorDirection(DIRN_STOP);
+}
+
 int main(){
     elevio_init();
+    bool stop = 0;
     MotorDirection direction = DIRN_STOP; // bevegelses retning
     Elevator heis;
     heis.direction = DIRN_UP; // prioritert retning
     int forrigeEtasje = 0;
+    
 
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
@@ -29,10 +40,7 @@ int main(){
 /*     elevatorInit(&heis);
  */
     //Startup the elevator goes down until floorstate is defined
-    while(elevio_floorSensor() == -1){
-        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
-        elevio_motorDirection(DIRN_DOWN);
-    }elevio_motorDirection(DIRN_STOP);
+    init();
 
     while(1){
         /*
@@ -106,6 +114,7 @@ int main(){
 
             //  sjekker om heisen har kommet fram til etasjen.
             heis.nextInstruction = etasjeliste_hent_neste(heis.currentFloor, heis.direction);
+        
             if(heis.nextInstruction == heis.currentFloor){
                 direction = DIRN_STOP;
             //  elevio_motorDirection(direction);
@@ -124,10 +133,12 @@ int main(){
                     elevio_buttonLamp(heis.currentFloor, BUTTON_CAB, 0);
                     lysliste_inne[heis.currentFloor] = 0;
                 }            
-            
+                
             }
         }
+
         elevio_motorDirection(direction);
+
 
         if(floorState != -1 && !lysFlagg){
             elevio_floorIndicator(floorState);
@@ -145,11 +156,52 @@ int main(){
             elevio_stopLamp(0);
         }
         
-        if(elevio_stopButton()){
+        while(elevio_stopButton()){
             elevio_motorDirection(DIRN_STOP);
-            break;
+            stop = 1;
         }
-        
+        if(stop){
+
+            etasjeliste_reset_all();
+            while(1){
+
+                for(int f = 0; f < N_FLOORS; f++){
+                    for(int b = 0; b < N_BUTTONS; b++){
+                        int btnPressed = elevio_callButton(f, b);
+                        if(btnPressed) {
+                            switch (b)
+                            {
+                            case BUTTON_HALL_UP:
+                                lysliste_opp[f] = 1;
+                                break;
+                            case BUTTON_HALL_DOWN:
+                                lysliste_ned[f] = 1;
+                                break;
+                            case BUTTON_CAB:
+                                lysliste_inne[f] = 1;
+                                break;
+                            default:
+                                break;
+                            }
+                        }
+                        //elevio_buttonLamp(f, b, btnPressed);
+                        if(btnPressed){
+                            etasjeliste_sett(f, b, 1);
+                            //direction = sjekk_om_bytte_retning(heis.currentFloor, 0, heis.direction);
+                            float x = heis.currentFloor + heis.direction/2.0;
+                            //printf("mellometasje rettninng: %d\n", etasjeliste_hent_neste(0, DIRN_UP) - x);
+                            if(etasjeliste_hent_neste(0, DIRN_UP) - x >0){
+                                direction = DIRN_UP;
+                            }else{
+                                direction = DIRN_DOWN;
+                            }
+                            stop=0;
+                        }
+                    }
+                }
+                if(stop==0){break;}
+            }
+        }
         // nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
 
